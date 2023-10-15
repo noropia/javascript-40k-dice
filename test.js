@@ -1,11 +1,11 @@
 function qunit_test() {
-    QUnit.hooks.beforeEach(function() {
+    QUnit.hooks.beforeEach(function () {
         TEST_OVERRIDE = true;
     });
 
     QUnit.module('parse_dice_prob_array');
 
-    QUnit.test('integer', function(assert) {
+    QUnit.test('integer', function (assert) {
         var hit_dice = '3';
 
         var attacks = parse_dice_prob_array(hit_dice);
@@ -35,7 +35,7 @@ function qunit_test() {
         assert.deepEqual(attacks, expected, "attacks");
     });
 
-    QUnit.test('one die', function(assert) {
+    QUnit.test('one die', function (assert) {
         var hit_dice = 'd4';
 
         var attacks = parse_dice_prob_array(hit_dice);
@@ -69,7 +69,7 @@ function qunit_test() {
         assert.deepEqual(attacks, expected, "attacks");
     });
 
-    QUnit.test('two dice', function(assert) {
+    QUnit.test('two dice', function (assert) {
         var hit_dice = '2d6';
 
         var attacks = parse_dice_prob_array(hit_dice);
@@ -135,7 +135,7 @@ function qunit_test() {
         assert.deepEqual(attacks, expected, "attacks");
     });
 
-    QUnit.test('integer sum', function(assert) {
+    QUnit.test('integer sum', function (assert) {
         var hit_dice = '1+2';
 
         var attacks = parse_dice_prob_array(hit_dice);
@@ -165,7 +165,7 @@ function qunit_test() {
         assert.deepEqual(attacks, expected, "attacks");
     });
 
-    QUnit.test('two dice sum', function(assert) {
+    QUnit.test('two dice sum', function (assert) {
         var hit_dice = 'd6+d6';
 
         var attacks = parse_dice_prob_array(hit_dice);
@@ -231,7 +231,7 @@ function qunit_test() {
         assert.deepEqual(attacks, expected, "attacks");
     });
 
-    QUnit.test('complex sum', function(assert) {
+    QUnit.test('complex sum', function (assert) {
         var hit_dice = '2d6+1+0';
 
         var attacks = parse_dice_prob_array(hit_dice);
@@ -303,7 +303,7 @@ function qunit_test() {
 
     QUnit.module('do_hits');
 
-    QUnit.test('one basic hit roll', function(assert) {
+    QUnit.test('one basic hit roll', function (assert) {
         var hit_stat = 5;
         var hit_mod = 0;
         var hit_dice = '1';
@@ -333,7 +333,7 @@ function qunit_test() {
         assert.deepEqual(hits, expected, "hits");
     });
 
-    QUnit.test('one hit roll with mortals', function(assert) {
+    QUnit.test('one hit roll with mortals', function (assert) {
         var hit_stat = 5;
         var hit_mod = 0;
         var hit_dice = '1';
@@ -366,7 +366,7 @@ function qunit_test() {
         assert.deepEqual(hits, expected, "hits");
     });
 
-    QUnit.test('one hit roll with extra attacks', function(assert) {
+    QUnit.test('one hit roll with extra attacks', function (assert) {
         var hit_stat = 5;
         var hit_mod = 0;
         var hit_dice = '1';
@@ -402,7 +402,7 @@ function qunit_test() {
         assert.deepEqual(hits, expected, "hits");
     });
 
-    QUnit.test('one hit roll with extra roll', function(assert) {
+    QUnit.test('one hit roll with extra roll', function (assert) {
         var hit_stat = 5;
         var hit_mod = 0;
         var hit_dice = '1';
@@ -438,7 +438,7 @@ function qunit_test() {
         assert.deepEqual(hits, expected, "hits");
     });
 
-    QUnit.test('one hit roll with variable extra attacks', function(assert) {
+    QUnit.test('one hit roll with variable extra attacks', function (assert) {
         var hit_stat = 5;
         var hit_mod = 0;
         var hit_dice = '1';
@@ -484,7 +484,7 @@ function qunit_test() {
 
     QUnit.module('do_wounds');
 
-    QUnit.test('one basic wound roll', function(assert) {
+    QUnit.test('one basic wound roll', function (assert) {
         var wound_stat = 5;
         var wound_mod = 0;
         var wound_crit = 6;
@@ -529,7 +529,7 @@ function qunit_test() {
         assert.deepEqual(wounds, expected, "wounds");
     });
 
-    QUnit.test('one wound roll with mortals', function(assert) {
+    QUnit.test('one wound roll with mortals', function (assert) {
         var wound_stat = 5;
         var wound_mod = 0;
         var wound_crit = 6;
@@ -577,7 +577,7 @@ function qunit_test() {
         assert.deepEqual(wounds, expected, "wounds");
     });
 
-    QUnit.test('one wound roll with improved crit range', function(assert) {
+    QUnit.test('one wound roll with improved crit range', function (assert) {
         var wound_stat = 5;
         var wound_mod = 0;
         var wound_crit = 4;
@@ -627,7 +627,7 @@ function qunit_test() {
 
     QUnit.module('damage & kills');
 
-    QUnit.test('40K multiwound', function(assert) {
+    QUnit.test('40K multiwound', function (assert) {
         var damage_val = 'd3';
         var wound_val = '2';
         var fnp = null;
@@ -669,7 +669,7 @@ function qunit_test() {
         assert.deepEqual(kills, expected_kills, "kills");
     });
 
-    QUnit.test('AOS multiwound', function(assert) {
+    QUnit.test('AOS multiwound', function (assert) {
         var damage_val = 'd3';
         var wound_val = '2';
         var fnp = null;
@@ -714,7 +714,7 @@ function qunit_test() {
 
     QUnit.module('Full Stack');
 
-    QUnit.test('6 attacks, mortals on hits and wounds', function(assert) {
+    QUnit.test('6 attacks, mortals on hits and wounds', function (assert) {
         var hit_stat = 4;
         var hit_mod = 0;
         var hit_dice = '6';
@@ -966,4 +966,3 @@ function qunit_test() {
         assert.deepEqual(killed_aos, expected_killed_aos, "killed aos");
     });
 }
-

@@ -65,7 +65,7 @@ function success_chance(stat, crit, modifier) {
 
 // Reroll 1s
 // Returns new success probability struct with updated values.
-function reroll_1(prob){
+function reroll_1(prob) {
     var ret = {};
 
     // Natural one happens 1/6 of the time.
@@ -78,7 +78,7 @@ function reroll_1(prob){
 
 // Reroll all failed rolls
 // Returns new success probability struct with updated values.
-function reroll(prob){
+function reroll(prob) {
     var ret = {};
 
     ret.pass_chance = prob.pass_chance + prob.fail_chance * prob.pass_chance;
@@ -108,7 +108,7 @@ function shake_damage(damage_prob, fnp) {
         var shake_prob = (7.0 - fnp) / 6.0;
 
         // Must work from left to right since we are moving results down.
-        for(var d = 1; d < damage_prob.length; d++) {
+        for (var d = 1; d < damage_prob.length; d++) {
             if (damage_prob[d] > 0) {
                 // Copy base probability
                 results[d] = damage_prob[d];
@@ -131,7 +131,7 @@ function shake_damage(damage_prob, fnp) {
 }
 
 function rolls_of_6_as_mortal(rolls, six_chance, damage_prob) {
-    var results = {'normal': [], 'mortal': []};
+    var results = { 'normal': [], 'mortal': [] };
 
     // Calculate base probability of a given number of mortal wounds.
     for (var w = 0; w < rolls.normal.length; w++) {
@@ -168,7 +168,7 @@ function rolls_of_6_as_mortal(rolls, six_chance, damage_prob) {
 }
 
 function rolls_of_6_add_mortal(rolls, six_chance) {
-    var results = {'normal': [], 'mortal': []};
+    var results = { 'normal': [], 'mortal': [] };
 
     for (var w = 0; w < rolls.normal.length; w++) {
         results.normal[w] = rolls.normal[w];
@@ -198,7 +198,7 @@ function rolls_of_6_add_mortal(rolls, six_chance) {
 }
 
 function hits_of_6_add_hits(hits, bonus_hits_val, bonus_hit_chance, hit_six_chance) {
-    var results = {'normal': [], 'mortal': []};
+    var results = { 'normal': [], 'mortal': [] };
 
     // Parse the bonus hits into a distribution.
     bonus_hits_prob = parse_dice_prob_array(bonus_hits_val).normal;
@@ -525,9 +525,9 @@ function do_damage(damage_val, fnp, damage_prob, unsaved) {
     // Change of a mortal wound going through.
     var mortal_damage_chance = shake_damage([0, 1], fnp)[1];
 
-    var damage = {'normal': []};
+    var damage = { 'normal': [] };
     // Apply damage based on how many hits there are.
-    for(var n = 0; n < unsaved.normal.length; n++) {
+    for (var n = 0; n < unsaved.normal.length; n++) {
         // Generate damage array for this many impacts.
         hit_damage = roll_n_dice(n, damage_prob);
 
@@ -555,12 +555,12 @@ function do_damage(damage_val, fnp, damage_prob, unsaved) {
 }
 
 function do_killed_40k(damage_prob, fnp, unsaved, wound_val) {
-    var killed = {'normal': []};
+    var killed = { 'normal': [] };
     var killed_title = 'models killed';
     damage_prob = shake_damage(damage_prob, fnp);
     var mortal_damage_chance = shake_damage([0, 1], fnp)[1];
     if (wound_val) {
-        for(var n = 0; n < unsaved.normal.length; n++) {
+        for (var n = 0; n < unsaved.normal.length; n++) {
             // Generate killed array for this many impacts.
             hit_killed = roll_n_dice_against_threshold(n, damage_prob, wound_val);
 
@@ -591,10 +591,10 @@ function do_killed_40k(damage_prob, fnp, unsaved, wound_val) {
 }
 
 function do_killed_aos(damage, wound_val) {
-    var killed = {'normal': []};
+    var killed = { 'normal': [] };
     var killed_title = 'models killed';
     if (wound_val) {
-        for(var n = 0; n < damage.normal.length; n++) {
+        for (var n = 0; n < damage.normal.length; n++) {
             var kills = Math.floor(n / wound_val);
             if (killed.normal[kills] == null) {
                 killed.normal[kills] = 0;
@@ -645,7 +645,7 @@ function roll_40k() {
     // Hits
     if (hit_mod < -1) {
         hit_mod = -1;
-    }else if (hit_mod > 1) {
+    } else if (hit_mod > 1) {
         hit_mod = 1;
     }
     var hit_prob = success_chance(hit_stat, hit_crit, hit_mod);
@@ -678,7 +678,7 @@ function roll_40k() {
     };
     if (wound_mod < -1) {
         wound_mod = -1;
-    }else if (wound_mod > 1) {
+    } else if (wound_mod > 1) {
         wound_mod = 1;
     }
     var wound_prob = calc_wound_prob(wound_stat, wound_crit, wound_mod, wound_reroll, hit_abilities, hit_prob);
@@ -727,7 +727,7 @@ function roll_aos() {
     // Hits
     if (hit_mod < -1) {
         hit_mod = -1;
-    }else if (hit_mod > 1) {
+    } else if (hit_mod > 1) {
         hit_mod = 1;
     }
     var hit_prob = success_chance(hit_stat, 6, hit_mod);
@@ -747,7 +747,7 @@ function roll_aos() {
     // Wounds
     if (wound_mod < -1) {
         wound_mod = -1;
-    }else if (wound_mod > 1) {
+    } else if (wound_mod > 1) {
         wound_mod = 1;
     }
     var wound_prob = calc_wound_prob(wound_stat, 6, wound_mod, wound_reroll, hit_abilities, hit_prob);
@@ -825,11 +825,11 @@ function prob(trials, successes, probability) {
 // Takes a probability array, returns new probability array reduced by the
 // specified probability of success.
 function filter_prob_array(input_probs, probability) {
-    var results = {'normal': [], 'mortal': []};
+    var results = { 'normal': [], 'mortal': [] };
 
-    for(var i = 0; i < input_probs.normal.length; i++) {
+    for (var i = 0; i < input_probs.normal.length; i++) {
         // merge into master list based on how likely this many trials were
-        for(var r = 0; r <= i; r++) {
+        for (var r = 0; r <= i; r++) {
             var trial_result = prob(i, r, probability);
 
             if (results.normal[r] == null) {
@@ -893,7 +893,7 @@ function parse_dice_prob_array(dice_str) {
     }
 
     // Make it a proper prob array with 0 mortal wounds.
-    var final_die_prob = {normal: die_prob, mortal: []};
+    var final_die_prob = { normal: die_prob, mortal: [] };
     for (var w = 0; w < die_prob.length; w++) {
         final_die_prob.mortal[w] = [final_die_prob.normal[w]];
     }
@@ -1082,7 +1082,7 @@ function array_2d(i, j) {
 
 function expected_value(data) {
     var ev = 0.0;
-    for(var i = 0; i < data.length; i++) {
+    for (var i = 0; i < data.length; i++) {
         if (data[i]) {
             ev += i * data[i];
         }
@@ -1108,7 +1108,7 @@ function graph(raw_data, title, chart_name) {
 
     // Clean up data for graphing.
     var max_length = raw_data.normal.length;
-    for(var l = 0; l < max_length; l++) {
+    for (var l = 0; l < max_length; l++) {
         if (raw_data.normal[l] == null) {
             raw_data.normal[l] = 0.0;
         }
@@ -1117,7 +1117,7 @@ function graph(raw_data, title, chart_name) {
 
         data[l] = clean;
         labels[l] = l;
-        cumulative_data.push({x: l + 0.5, y: Math.round(cumulative * 10) / 10.0});
+        cumulative_data.push({ x: l + 0.5, y: Math.round(cumulative * 10) / 10.0 });
 
         // Decrement cumulative probability.
         // Note that this uses the true value, not the cleaned value.
@@ -1130,7 +1130,7 @@ function graph(raw_data, title, chart_name) {
             if (raw_data.mortal[l].length > max_length) {
                 max_length = raw_data.mortal[l].length;
             }
-            for(var m = 0; m < raw_data.mortal[l].length; m++) {
+            for (var m = 0; m < raw_data.mortal[l].length; m++) {
                 if (mortal[m] == null) {
                     mortal[m] = 0.0;
                 }
@@ -1149,7 +1149,7 @@ function graph(raw_data, title, chart_name) {
             if (clean_mortal) {
                 has_mortal = true;
             }
-            cumulative_mortal_data.push({x: m + 0.5, y: Math.round(cumulative_mortal * 10) / 10.0});
+            cumulative_mortal_data.push({ x: m + 0.5, y: Math.round(cumulative_mortal * 10) / 10.0 });
             cumulative_mortal -= mortal[m] * 100;
             mortal[m] = clean_mortal;
         }
@@ -1169,10 +1169,10 @@ function graph(raw_data, title, chart_name) {
     // Set start and end points for the cumulative to the chart boundaries.
     if (cumulative_data.length) {
         cumulative_data[0].x = 0;
-        cumulative_data[max_length] = {x: max_length, y: 0};
+        cumulative_data[max_length] = { x: max_length, y: 0 };
         if (has_mortal) {
             cumulative_mortal_data[0].x = 0;
-            cumulative_mortal_data[max_length] = {x: max_length, y: 0};
+            cumulative_mortal_data[max_length] = { x: max_length, y: 0 };
         }
     }
 
@@ -1183,9 +1183,9 @@ function graph(raw_data, title, chart_name) {
     text.innerHTML = 'Expected: ' + ev;
     var ev_points = [];
     ev_points.length = Math.floor(ev);
-    ev_points.fill({x: 0, y: null});
-    ev_points[ev_points.length] = {x:ev, y:100};
-    ev_points[ev_points.length] = {x:ev, y:0};
+    ev_points.fill({ x: 0, y: null });
+    ev_points[ev_points.length] = { x: ev, y: 100 };
+    ev_points[ev_points.length] = { x: ev, y: 0 };
 
     chart.data.datasets[DATASET_PRIMARY].data = data;
     chart.data.datasets[DATASET_PRIMARY].grouped = has_mortal;
@@ -1246,17 +1246,17 @@ function init_40k() {
 
 function generate_permalink_40k() {
     var pairs = [];
-    for(var i = 0; i < fields_40k.length; i++) {
+    for (var i = 0; i < fields_40k.length; i++) {
         if (document.getElementById(fields_40k[i]).value) {
             pairs[pairs.length] = fields_40k[i] + '=' + document.getElementById(fields_40k[i]).value;
         }
     }
-    for(var i = 0; i < checkboxes_40k.length; i++) {
+    for (var i = 0; i < checkboxes_40k.length; i++) {
         if (document.getElementById(checkboxes_40k[i]).checked) {
             pairs[pairs.length] = checkboxes_40k[i];
         }
     }
-    for(var i = 0; i < selects_40k.length; i++) {
+    for (var i = 0; i < selects_40k.length; i++) {
         if (document.getElementById(selects_40k[i]).value) {
             pairs[pairs.length] = selects_40k[i] + '=' + document.getElementById(selects_40k[i]).value;;
         }
@@ -1301,17 +1301,17 @@ function init_aos() {
 
 function generate_permalink_aos() {
     var pairs = [];
-    for(var i = 0; i < fields_aos.length; i++) {
+    for (var i = 0; i < fields_aos.length; i++) {
         if (document.getElementById(fields_aos[i]).value) {
             pairs[pairs.length] = fields_aos[i] + '=' + document.getElementById(fields_aos[i]).value;
         }
     }
-    for(var i = 0; i < checkboxes_aos.length; i++) {
+    for (var i = 0; i < checkboxes_aos.length; i++) {
         if (document.getElementById(checkboxes_aos[i]).checked) {
             pairs[pairs.length] = checkboxes_aos[i];
         }
     }
-    for(var i = 0; i < selects_aos.length; i++) {
+    for (var i = 0; i < selects_aos.length; i++) {
         if (document.getElementById(selects_aos[i]).value) {
             pairs[pairs.length] = selects_aos[i] + '=' + document.getElementById(selects_aos[i]).value;;
         }
@@ -1437,10 +1437,10 @@ function init_chart(chart_name, label) {
                 },
                 tooltip: {
                     callbacks: {
-                        title: function(item) {
+                        title: function (item) {
                             return '';
                         },
-                        label: function(item) {
+                        label: function (item) {
                             if (item.datasetIndex == DATASET_EXPECTED) {
                                 // Expected value
                                 if (item.parsed.y == 100) {
